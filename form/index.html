@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OSS Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css"/>
+    <style>
+        label {
+            width: 100px;
+			color: black;
+        }
+        .error {
+            color: red;
+        }
+        input {
+            border : 1px solid #ccc;
+			color: black;
+        }
+        .error {
+            border-color: red;
+        }
+        .content {
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="content">
+                <form id="testForm">
+                    <div>
+                        <label for="firstName">First name</label>
+                        <input name="firstName" type="text" id="firstName"/>
+                    </div>
+
+                    <div>
+                        <label for="lastName">Last name</label>
+                        <input name="lastName" type="text" id="lastName"/>
+                    </div>
+
+                    <div>
+                        <label for="email">Email</label>
+                        <input name="email" type="text" id="email"/>
+                    </div>
+
+                    <input type="button" onclick="myForm(this.form)" value="Send">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showError(container, errorMessage) {
+      container.className = 'error';
+      var msgElem = document.createElement('span');
+      msgElem.className = "error-message";
+      msgElem.innerHTML = errorMessage;
+      container.appendChild(msgElem);
+    }
+	
+	function resetError(container) {
+      container.className = '';
+      if (container.lastChild.className == "error-message") {
+        container.removeChild(container.lastChild);
+      }
+    }
+	
+	 function myForm(form) {
+      var elems = form.elements;
+	  var fname = false;
+	  var lname = false;
+	  var email = false;
+
+	  resetError(elems.firstName.parentNode);
+      if (!elems.firstName.value) {
+        showError(elems.firstName.parentNode, 'Please, enter your first name.');
+      }
+	  else {
+		fname = true;
+	  }
+
+	  resetError(elems.lastName.parentNode);
+      if (!elems.lastName.value) {
+        showError(elems.lastName.parentNode, 'Please, enter your last name.');
+      }
+	  else {
+		lname = true;
+	  }
+
+	  resetError(elems.email.parentNode);
+	  var patt = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!elems.email.value) {
+        showError(elems.email.parentNode, 'Please, enter your email.');
+      }
+	  else if (patt.test(String(elems.email.value).toLowerCase()) !== true) {
+		showError(elems.email.parentNode, 'Please, enter valid email.');
+	  }
+	  else {
+		email = true;
+	  }
+	  
+	  if(fname == true && lname == true && email == true) {
+		alert("Your form was sended!");
+	  }
+
+    }
+</script>
+
+</body>
+</html>
